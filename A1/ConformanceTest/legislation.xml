@@ -1,0 +1,87 @@
+<machine id="1">
+  <packageName>ca.mcgill.ecse429.conformancetest.legislation</packageName>
+  <className>Legislation.java</className>
+  <startState id="2">
+    <name>start</name>
+  </startState>
+  <states id="3">
+    <state reference="2"/>
+    <state id="4">
+      <name>inPreparation</name>
+    </state>
+    <state id="5">
+      <name>inHouseOfCommons</name>
+    </state>
+    <state id="6">
+      <name>inSenate</name>
+    </state>
+    <state id="7">
+      <name>finalized</name>
+    </state>
+  </states>
+  <transitions id="8">
+    <transition id="9">
+      <event>@ctor</event>
+      <condition></condition>
+      <action>isCommonsBill = true;</action>
+      <from reference="2"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="10">
+      <event>introduceInSenate</event>
+      <condition></condition>
+      <action>isCommonsBill = false;</action>
+      <from reference="4"/>
+      <to reference="6"/>
+    </transition>
+    <transition id="11">
+      <event>introduceInHouse</event>
+      <condition></condition>
+      <action></action>
+      <from reference="4"/>
+      <to reference="5"/>
+    </transition>
+    <transition id="12">
+      <event>voteFails</event>
+      <condition></condition>
+      <action></action>
+      <from reference="5"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="13">
+      <event>votePasses</event>
+      <condition>getIsCommonsBill()</condition>
+      <action></action>
+      <from reference="5"/>
+      <to reference="6"/>
+    </transition>
+    <transition id="14">
+      <event>votePasses</event>
+      <condition>!getIsCommonsBill()</condition>
+      <action></action>
+      <from reference="5"/>
+      <to reference="7"/>
+    </transition>
+    <transition id="15">
+      <event>voteFails</event>
+      <condition></condition>
+      <action></action>
+      <from reference="6"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="16">
+      <event>votePasses</event>
+      <condition>!getIsCommonsBill()</condition>
+      <action></action>
+      <from reference="6"/>
+      <to reference="5"/>
+    </transition>
+    <transition id="17">
+      <event>votePasses</event>
+      <condition>getIsCommonsBill()</condition>
+      <action></action>
+      <from reference="6"/>
+      <to reference="7"/>
+    </transition>
+  </transitions>
+</machine>

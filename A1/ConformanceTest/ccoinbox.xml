@@ -1,0 +1,112 @@
+<machine id="1">
+  <packageName>ca.mcgill.ecse429.conformancetest.ccoinbox</packageName>
+  <className>CCoinBox.java</className>
+  <startState id="2">
+    <name>start</name>
+  </startState>
+  <states id="3">
+    <state reference="2"/>
+    <state id="4">
+      <name>empty</name>
+    </state>
+    <state id="5">
+      <name>notAllowed</name>
+    </state>
+    <state id="6">
+      <name>allowed</name>
+    </state>
+  </states>
+  <transitions id="7">
+    <transition id="8">
+      <event>@ctor</event>
+      <condition></condition>
+      <action>totalQtrs = 0; curQtrs = 0; allowVend = false;</action>
+      <from reference="2"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="9">
+      <event>returnQtrs</event>
+      <condition></condition>
+      <action></action>
+      <from reference="4"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="10">
+      <event>reset</event>
+      <condition></condition>
+      <action>totalQtrs = 0;</action>
+      <from reference="4"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="11">
+      <event>addQtr</event>
+      <condition></condition>
+      <action>curQtrs = curQtrs + 1;</action>
+      <from reference="4"/>
+      <to reference="5"/>
+    </transition>
+    <transition id="12">
+      <event>returnQtrs</event>
+      <condition></condition>
+      <action>curQtrs = 0;</action>
+      <from reference="5"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="13">
+      <event>reset</event>
+      <condition></condition>
+      <action>totalQtrs = 0; curQtrs = 0;</action>
+      <from reference="5"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="14">
+      <event>addQtr</event>
+      <condition></condition>
+      <action>curQtrs = curQtrs + 1; allowVend = true;</action>
+      <from reference="5"/>
+      <to reference="6"/>
+    </transition>
+    <transition id="15">
+      <event>returnQtrs</event>
+      <condition></condition>
+      <action>curQtrs = 0; allowVend = false;</action>
+      <from reference="6"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="16">
+      <event>reset</event>
+      <condition></condition>
+      <action>totalQtrs = 0; curQtrs = 0; allowVend = false;</action>
+      <from reference="6"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="17">
+      <event>addQtr</event>
+      <condition></condition>
+      <action>curQtrs = curQtrs + 1;</action>
+      <from reference="6"/>
+      <to reference="6"/>
+    </transition>
+    <transition id="18">
+      <event>vend</event>
+      <condition>curQtrs == 2</condition>
+      <action>totalQtrs = totalQtrs + 2; curQtrs = 0; allowVend = false;</action>
+      <from reference="6"/>
+      <to reference="4"/>
+    </transition>
+    <transition id="19">
+      <event>vend</event>
+      <condition>curQtrs == 3</condition>
+      <action>totalQtrs = totalQtrs + 2; curQtrs = 1; allowVend = false;</action>
+      <from reference="6"/>
+      <to reference="5"/>
+    </transition>
+    <transition id="20">
+      <event>vend</event>
+      <condition>curQtrs &gt; 3</condition>
+      <action>totalQtrs = totalQtrs + 2; curQtrs = curQtrs - 2;</action>
+      <from reference="6"/>
+      <to reference="6"/>
+    </transition>
+  </transitions>
+</machine>
