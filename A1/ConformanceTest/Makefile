@@ -98,12 +98,11 @@ autotest: nplus
 	# auto-test from xml
 	@mkdir -p $(TDIR)
 	@$(foreach xml,$(XML), \
-#		echo Make: $(xml); \
 		$(eval sxml := $(subst :,$(SPACE),$(xml))) \
 		$(eval XMLFILE := $(word 1,$(sxml))) \
 		$(eval XMLPATH := $(word 2,$(sxml))) \
 		$(eval XMLNEW  := $(TDIR)/$(dir $(XMLPATH))GeneratedTest$(notdir $(XMLPATH))) \
-#		echo Make: file, path, new: $(XMLFILE), $(XMLPATH), $(XMLNEW); \
+		echo Make: java $(NPLUS) $(XMLFILE) $(XMLPATH) \> $(XMLNEW); \
 		java -cp $(LIB) $(NPLUS) $(XMLFILE) $(SDIR)/$(XMLPATH) > $(XMLNEW); \
 		$(CC) $(CF) -d $(BDIR) -sourcepath $(TDIR) -cp $(ULIB):$(LIB) $(XMLNEW); \
 	)

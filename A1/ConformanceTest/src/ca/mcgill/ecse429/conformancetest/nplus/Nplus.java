@@ -31,6 +31,8 @@ class Nplus {
 			return;
 		}
 
+		System.err.printf("Nplus <%s>, <%s>\n", args[0], args[1]);
+
 		String xml  = basicFilename(args[0]);
 		String pckg = pathToPackage(args[1]);
 		String clas = extractClass(args[1]);
@@ -41,7 +43,7 @@ class Nplus {
 			return;
 		}
 
-		System.err.printf("Nplus: <%s>, <%s>, <%s>.\n", xml, pckg, clas);
+		System.err.printf("Nplus: xml:<%s>, pckg:<%s>, clas:<%s>.\n", xml, pckg, clas);
 
 		/* read xml (why doesn't it throw something; this is so sketch) */
 		//StateMachine sm = PersistenceStateMachine.loadStateMachine(xml);
