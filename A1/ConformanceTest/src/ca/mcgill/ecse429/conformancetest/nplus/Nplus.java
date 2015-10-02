@@ -25,28 +25,33 @@ class Nplus {
 
 	public static void main(final String args[]) {
 
+		/* read and manipulate args */
+
 		if(args.length != 2) {
-			System.err.printf("Wrong number of args: <xml> <directory>.\n");
+			System.err.printf("Wrong number of args: <xml> <path to file>.\n");
 			System.exit(EXIT_FAILURE);
-			return;
 		}
 
 		System.err.printf("Nplus <%s>, <%s>\n", args[0], args[1]);
 
-		String xml  = basicFilename(args[0]);
-		String pckg = pathToPackage(args[1]);
-		String clas = extractClass(args[1]);
+		String xml   = args[0];
+		String basic = basicFilename(args[0]);
+		String pckg  = pathToPackage(args[1]);
+		String clas  = extractClass(args[1]);
 
 		if(clas == null) {
 			System.err.printf("<filename> must be a valid java file.\n");
 			System.exit(EXIT_FAILURE);
-			return;
 		}
 
-		System.err.printf("Nplus: xml:<%s>, pckg:<%s>, clas:<%s>.\n", xml, pckg, clas);
+		System.err.printf("basic:<%s>, pckg:<%s>, clas:<%s>.\n", basic, pckg, clas);
+		System.err.printf("Appempting to read StateMachine from <%s>.\n", xml);
 
-		/* read xml (why doesn't it throw something; this is so sketch) */
-		//StateMachine sm = PersistenceStateMachine.loadStateMachine(xml);
+		/* read xml; why doesn't it throw something?; this is so sketch . . . */
+		StateMachine sm = PersistenceStateMachine.loadStateMachine(xml);
+
+		System.err.printf("Package: %s\n", sm.getPackageName());
+		System.err.printf("Class: %s\n", sm.getClassName());
 
 		//System.err.printf("Info xml file %s -> %s.\n", args[0], basic);
 		//System.out.printf("package ca.mcgill.ecse429.conformancetest.%s;\n\n", basic);
