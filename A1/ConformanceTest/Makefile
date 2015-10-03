@@ -102,9 +102,9 @@ autotest: nplus
 		$(eval XMLFILE := $(word 1,$(sxml))) \
 		$(eval XMLPATH := $(word 2,$(sxml))) \
 		$(eval XMLNEW  := $(TDIR)/$(dir $(XMLPATH))GeneratedTest$(notdir $(XMLPATH))) \
-		echo Make: java $(NPLUS) $(XMLFILE) $(XMLPATH) \> $(XMLNEW); \
-		java -cp $(LIB) $(NPLUS) $(XMLFILE) $(SDIR)/$(XMLPATH) > $(XMLNEW); \
-		$(CC) $(CF) -d $(BDIR) -sourcepath $(TDIR) -cp $(ULIB):$(LIB) $(XMLNEW); \
+		echo Make: java $(NPLUS) $(XMLFILE) \> $(XMLNEW); \
+		java -cp $(LIB) $(NPLUS) $(XMLFILE) > $(XMLNEW); \
+		$(CC) $(CF) -d $(BDIR) -sourcepath $(TDIR):$(SDIR) -cp $(ULIB):$(LIB) $(XMLNEW); \
 	)
 
 test: default nplus autotest
