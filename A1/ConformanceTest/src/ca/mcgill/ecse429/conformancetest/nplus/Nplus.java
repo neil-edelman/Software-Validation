@@ -8,6 +8,8 @@ import ca.mcgill.ecse429.conformancetest.statemodel.State;
 import ca.mcgill.ecse429.conformancetest.statemodel.StateMachine;
 import ca.mcgill.ecse429.conformancetest.statemodel.Transition;
 
+import java.util.function.Predicate;
+
 import java.util.Iterator;
 import java.io.File;
 
@@ -69,18 +71,24 @@ class Nplus {
 		}
 		System.out.printf("import org.junit.Test;\n");
 		System.out.printf("import org.junit.Assert;\n\n");
+		System.out.printf("import java.util.function.Predicate;\n\n");
 		System.out.printf("public class %s {\n\n", testClass);
-		//System.out.printf("\tprivate %s test;\n\n", targetClass);
+		for(State s : sm.getStates()) {
+			if("start".compareTo(s.getName()) == 0) continue;
+			System.out.printf("\tstatic final Predicate<%s> isState%s = (m) -> m.getState() == %s.State.%s;\n", targetClass, s.getName(), targetClass, s.getName());
+		}
+		System.out.printf("\n");
 		System.out.printf("\t@Test\n");
 		System.out.printf("\tpublic void one() {\n");
 		System.out.printf("\t\t%s test = new %s(/* assumes no input constructor is defined */);\n", targetClass, targetClass);
 		System.out.printf("\t}\n\n");
-		for(State s : sm.getStates()) {
-			System.out.printf("\t/* %s */\n", s.getName());
+		/*for(State s : sm.getStates()) {
+			System.out.printf("\t* %s *\n", s.getName());
 			System.out.printf("\tstatic private void test%s() {\n", s.getName());
 			System.out.printf("\t}\n\n");
-		}
+		}*/
 		System.out.printf("}\n");
+
 	}
 
 	/* /dir/dir/dir/foo.bar -> foo */

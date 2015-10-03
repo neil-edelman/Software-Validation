@@ -9,6 +9,10 @@ public class State
 
   //State Attributes
   private String name;
+	
+	private enum Visit { UNVISITED, VISITED };
+
+	private Visit visit = Visit.UNVISITED;
 
   //------------------------
   // CONSTRUCTOR
@@ -47,4 +51,12 @@ public class State
             "name" + ":" + getName()+ "]"
      + outputString;
   }
+	
+	public boolean isVisited() {
+		return visit == Visit.VISITED;
+	}
+	
+	public void setVisited() {
+		visit = Visit.VISITED;
+	}
 }

@@ -5,27 +5,17 @@ package ca.mcgill.ecse429.conformancetest.ccoinbox;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.util.function.Predicate;
+
 public class GeneratedTestCCoinBox {
+
+	static final Predicate<CCoinBox> isStateempty = (m) -> m.getState() == CCoinBox.State.empty;
+	static final Predicate<CCoinBox> isStatenotAllowed = (m) -> m.getState() == CCoinBox.State.notAllowed;
+	static final Predicate<CCoinBox> isStateallowed = (m) -> m.getState() == CCoinBox.State.allowed;
 
 	@Test
 	public void one() {
 		CCoinBox test = new CCoinBox(/* assumes no input constructor is defined */);
-	}
-
-	/* start */
-	static private void teststart() {
-	}
-
-	/* empty */
-	static private void testempty() {
-	}
-
-	/* notAllowed */
-	static private void testnotAllowed() {
-	}
-
-	/* allowed */
-	static private void testallowed() {
 	}
 
 }
