@@ -211,11 +211,10 @@ public class StateMachine
 
   public boolean addTransition(Transition aTransition)
   {
-    boolean wasAdded = false;
-    if (transitions.contains(aTransition)) { return false; }
+    if(transitions.contains(aTransition)) return false;
     transitions.add(aTransition);
-    wasAdded = true;
-    return wasAdded;
+	//  System.out.printf("/* %s */\n", aTransition);
+    return true;
   }
 
   public boolean removeTransition(Transition aTransition)

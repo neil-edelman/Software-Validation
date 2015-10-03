@@ -22,6 +22,7 @@ public class PersistenceStateMachine {
 		StateMachine sm = StateMachine.getInstance();
 		PersistenceStateMachine.initializeXStream(filename);
 		StateMachine sm2 = (StateMachine) PersistenceXStream.loadFromXMLwithXStream();
+		Transition t;
 		if (sm2 != null) {
 			// unfortunately, this creates a second StateMachine object, even though it is a singleton
 			// copy loaded model into singleton instance of StateMachine, because this will be used throughout the application
@@ -32,8 +33,14 @@ public class PersistenceStateMachine {
 			while (sIt.hasNext())
 				sm.addState(sIt.next());
 			Iterator<Transition> tIt = sm2.getTransitions().iterator();
-			while (tIt.hasNext())
-				sm.addTransition(tIt.next());
+			while (tIt.hasNext()) {
+				sm.addTransition(t = tIt.next());
+				//System.out.printf("/*::%s::%s::*/\n", t.getFrom(), t.getTo());
+				/* What? some kind of reflection or unsafe casting has init them
+				 w/o a constructor; very sketch */
+				t.setTo(t.getTo());
+				t.setFrom(t.getFrom());
+			}
 		}
 		return sm;
 	}

@@ -14,8 +14,10 @@ public class GeneratedTestCCoinBox {
 	static final Predicate<CCoinBox> isStateallowed = (m) -> m.getState() == CCoinBox.State.allowed;
 
 	@Test
-	public void one() {
+	public void test() {
 		CCoinBox test = new CCoinBox(/* assumes no input constructor is defined */);
+/*start: (start[true]->empty[false])?*/
+/*Yes.*/
 	}
 
 }

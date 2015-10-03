@@ -15,8 +15,10 @@ public class GeneratedTestLegislation {
 	static final Predicate<Legislation> isStatefinalized = (m) -> m.getState() == Legislation.State.finalized;
 
 	@Test
-	public void one() {
+	public void test() {
 		Legislation test = new Legislation(/* assumes no input constructor is defined */);
+/*start: (start[true]->inPreparation[false])?*/
+/*Yes.*/
 	}
 
 }

@@ -20,8 +20,10 @@ public class Transition
   // CONSTRUCTOR
   //------------------------
 
+	/* fixme: never gets called */
   public Transition(String aEvent, String aCondition, String aAction, State aFrom, State aTo)
   {
+	  System.out.printf("/* trans %s->%s */\n", aFrom, aTo);
     event = aEvent;
     condition = aCondition;
     action = aAction;
@@ -90,13 +92,11 @@ public class Transition
 
   public boolean setFrom(State aNewFrom)
   {
-    boolean wasSet = false;
-    if (aNewFrom != null)
-    {
-      from = aNewFrom;
-      wasSet = true;
-    }
-    return wasSet;
+	  if(aNewFrom == null) return false;
+	  assert(from == null); /* once it's set, it can never be reset; easier */
+	  from = aNewFrom;
+	  from.addOut(this);
+	  return true;
   }
 
   public boolean setTo(State aNewTo)
@@ -119,13 +119,14 @@ public class Transition
 
   public String toString()
   {
-	  String outputString = "";
+/*	  String outputString = "";
     return super.toString() + "["+
             "event" + ":" + getEvent()+ "," +
             "condition" + ":" + getCondition()+ "," +
             "action" + ":" + getAction()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "from = "+(getFrom()!=null?Integer.toHexString(System.identityHashCode(getFrom())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "to = "+(getTo()!=null?Integer.toHexString(System.identityHashCode(getTo())):"null")
-     + outputString;
+     + outputString;*/
+	  return "(" + from + "->" + to /*+ ":" + event + ":" + condition + ":" + action*/ + ")";
   }
 }

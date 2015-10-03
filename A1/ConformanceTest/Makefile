@@ -28,6 +28,7 @@ NPLUS := ca/mcgill/ecse429/conformancetest/nplus/Nplus
 XML = \
  ccoinbox.xml:ca/mcgill/ecse429/conformancetest/ccoinbox/CCoinBox.java \
  legislation.xml:ca/mcgill/ecse429/conformancetest/legislation/Legislation.java
+NPLUSDEP := $(call rwildcard, $(SDIR)/ca/mcgill/ecse429/conformancetest/nplus/, *.java)
 
 # set this in where the files hamcrest-core-1.3.jar, junit-4.12.jar can be found
 JUNITHOME := /Users/neil/Music/java
@@ -77,7 +78,7 @@ INST  := $(PROJ)-$(VA)_$(VB)
 
 default: $(OBJ)
 
-nplus: $(OBJN)
+nplus: statemodel $(OBJN) $(NPLUSDEP)
 
 $(OBJ): $(JAVA)
 	# making programme
@@ -93,6 +94,11 @@ $(OBJN): $(JAVA)
 # phoney targets
 
 .PHONY: test run clean backup nplus autotest
+
+statemodel: $(call rwildcard, $(SDIR)/ca/mcgill/ecse429/conformancetest/statemodel/, *.java)
+	# making statemodel
+	@mkdir -p $(BDIR)
+	$(CC) $(CF) -d $(BDIR) -sourcepath $(SDIR) -cp $(LIB) $(SDIR)/ca/mcgill/ecse429/conformancetest/statemodel/persistence/PersistenceStateMachine.java
 
 autotest: nplus
 	# auto-test from xml

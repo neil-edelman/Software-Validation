@@ -1,5 +1,8 @@
 package ca.mcgill.ecse429.conformancetest.statemodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class State
 {
 
@@ -9,14 +12,17 @@ public class State
 
   //State Attributes
   private String name;
-	
-	private enum Visit { UNVISITED, VISITED };
 
-	private Visit visit = Visit.UNVISITED;
+	private boolean isVisited  = false;
+	private boolean isFinished = false;
+
+	private ArrayList<Transition> out;// = new ArrayList<Transition>();
+	// something's very fishy
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+	/* Neil: never gets called??? */
 
   public State(String aName)
   {
@@ -31,7 +37,7 @@ public class State
   {
     boolean wasSet = false;
     name = aName;
-    wasSet = true;
+    wasSet = true; // that's useless
     return wasSet;
   }
 
@@ -46,17 +52,36 @@ public class State
 
   public String toString()
   {
-	  String outputString = "";
+	/*  String outputString = "";
     return super.toString() + "["+
             "name" + ":" + getName()+ "]"
-     + outputString;
+     + outputString;*/
+	  return name + "[" + isVisited + "]";
   }
 	
+	public void addOut(final Transition transition) {
+		if(out == null) out = new ArrayList<Transition>();
+		out.add(transition);
+		//System.err.printf("****addOut: Added %s to %s.\n", transition, this);
+	}
+	
+	public List<Transition> getOut() {
+		return out;
+	}
+	
 	public boolean isVisited() {
-		return visit == Visit.VISITED;
+		return isVisited;
 	}
 	
 	public void setVisited() {
-		visit = Visit.VISITED;
+		isVisited = true;
+	}
+
+	public boolean isFinished() {
+		return isFinished;
+	}
+	
+	public void setFinished() {
+		isFinished = true;
 	}
 }
