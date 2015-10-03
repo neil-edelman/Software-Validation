@@ -56,7 +56,8 @@ public class State
     return super.toString() + "["+
             "name" + ":" + getName()+ "]"
      + outputString;*/
-	  return name + "[" + isVisited + "]";
+	//  return name + "[" + isVisited + "]";
+	  return name;
   }
 	
 	public void addOut(final Transition transition) {
@@ -77,11 +78,11 @@ public class State
 		isVisited = true;
 	}
 
-	public boolean isFinished() {
+	public boolean isTerminal() {
 		return isFinished;
 	}
 	
-	public void setFinished() {
+	public void setTerminal() {
 		isFinished = true;
 	}
 }

@@ -16,8 +16,10 @@ public class GeneratedTestCCoinBox {
 	@Test
 	public void test() {
 		CCoinBox test = new CCoinBox(/* assumes no input constructor is defined */);
-/*start: (start[true]->empty[false])?*/
-/*Yes.*/
+		/* start->(start->empty)->empty */
+		/* (unterminal) */
+		/* (unvisited) */
+		/* next: start->(start->empty)->empty */
 	}
 
 }

@@ -56,36 +56,72 @@ class Nplus {
 		System.out.printf("import java.util.function.Predicate;\n\n");
 		System.out.printf("public class %s {\n\n", testClass);
 		for(State s : sm.getStates()) {
-			if("start".compareTo(s.getName()) == 0) continue;
+			if(!isValidState(s)) continue;
 			System.out.printf("\tstatic final Predicate<%s> isState%s = (m) -> m.getState() == %s.State.%s;\n", targetClass, s.getName(), targetClass, s.getName());
 		}
 		System.out.printf("\n");
 
-		/* dfs */
-		State nextState;
-		while(sm.getStartState().isVisited() == false) {
+		/* do a bunch of dfs paths until coverage is complete */
+		State state, nextState, nextTemp;
+		boolean isLookingForUnvisited;
+		while((state = sm.getStartState()).isTerminal() != true) {
+
+			/* each path corresponds to a test */
 			System.out.printf("\t@Test\n");
 			System.out.printf("\tpublic void test() {\n");
 			System.out.printf("\t\t%s test = new %s(/* assumes no input constructor is defined */);\n", targetClass, targetClass);
-			/* this is incorrect */
-			for(State state = sm.getStartState(); ; state = nextState) {
-				state.setVisited();
-				nextState = null;
-				for(Transition t : state.getOut()) {
-					System.out.printf("/*%s: %s?*/\n", state.getName(), t);
-					if(!t.getTo().isFinished () && t.getTo() != state) {
-						System.out.printf("/*Yes.*/\n");
-						nextState = t.getTo();
-						break;
-					}
-				}
-				nextState = null;
-				if(nextState == null) {
-					state.setVisited();
+
+			/* a single dfs path */
+			for( ; ; ) {
+
+				if(state == null) {
+					System.out.printf("/*state == null!!!! :[*/\n");
 					break;
 				}
+				/* assert this node */
+				if(isValidState(state)) System.out.printf("\t\tAssert.assertTrue(isState%s.test(test));\n", state.getName());
+				state.setVisited();
+
+				/* compile a list of unvisited states from the current state */
+				int unvisited = 0, unterminal = 0;
+				for(Transition t : state.getOut()) {
+					nextTemp = t.getTo();
+					if(nextTemp == state || nextTemp.isTerminal()) continue;
+					System.out.printf("\t\t/* %s->%s->%s */\n", state, t, nextTemp);
+					unterminal++;
+					System.out.printf("\t\t/* (unterminal) */\n");
+					if(nextTemp.isVisited()) continue;
+					unvisited++;
+					System.out.printf("\t\t/* (unvisited) */\n");
+				}
+
+				if(unterminal == 0) {
+					/* leaf */
+					state.setTerminal();
+					System.out.printf("\t\t/* %s set to terminal */\n");
+					break;
+				} else if(unvisited == 0) {
+					isLookingForUnvisited = false;
+				} else {
+					isLookingForUnvisited = true;
+				}
+
+				/* nextState */
+				nextState = null;
+				for(Transition t : state.getOut()) {
+					nextTemp = t.getTo();
+					if(nextTemp == state || nextTemp.isTerminal()) continue;
+					if(isLookingForUnvisited && nextTemp.isVisited()) continue;
+					System.out.printf("\t\t/* next: %s->%s->%s */\n", state, t, nextTemp);
+					nextState = nextTemp;
+					break;
+				}
+				assert(nextState != null);
+				state = nextState;
+				break;
 			}
 			System.out.printf("\t}\n\n");
+			break;
 		}
 
 		/* footer */
@@ -124,6 +160,11 @@ class Nplus {
 		int last = fn.lastIndexOf('.');
 		if(last == -1) return null;
 		return fn.substring(0, last);
+	}
+
+	/* 'start' state doesn't have an entry in the enum State */
+	private static boolean isValidState(final State s) {
+		return (s == null || "start".compareTo(s.getName()) == 0) ? false : true;
 	}
 
 	/** Constructor.

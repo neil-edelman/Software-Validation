@@ -17,8 +17,10 @@ public class GeneratedTestLegislation {
 	@Test
 	public void test() {
 		Legislation test = new Legislation(/* assumes no input constructor is defined */);
-/*start: (start[true]->inPreparation[false])?*/
-/*Yes.*/
+		/* start->(start->inPreparation)->inPreparation */
+		/* (unterminal) */
+		/* (unvisited) */
+		/* next: start->(start->inPreparation)->inPreparation */
 	}
 
 }
