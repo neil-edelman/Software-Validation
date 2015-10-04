@@ -14,13 +14,13 @@ public class GeneratedTestLegislation {
 	static final Predicate<Legislation> isStateinSenate = (m) -> m.getState() == Legislation.State.inSenate;
 	static final Predicate<Legislation> isStatefinalized = (m) -> m.getState() == Legislation.State.finalized;
 
-	@Test
-	public void test() {
-		Legislation test = new Legislation(/* assumes no input constructor is defined */);
-		/* start->(start->inPreparation)->inPreparation */
-		/* (unterminal) */
-		/* (unvisited) */
-		/* next: start->(start->inPreparation)->inPreparation */
-	}
+	static Legislation test;
 
-}
+/* nodes ->start
+   edges  */
+/* nodes ->inPreparation
+   edges  */
+/* nodes ->inSenate->inHouseOfCommons
+   edges  */
+/* nodes ->inSenate->inSenate->finalized
+   edges  */

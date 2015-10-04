@@ -13,13 +13,21 @@ public class GeneratedTestCCoinBox {
 	static final Predicate<CCoinBox> isStatenotAllowed = (m) -> m.getState() == CCoinBox.State.notAllowed;
 	static final Predicate<CCoinBox> isStateallowed = (m) -> m.getState() == CCoinBox.State.allowed;
 
+	static CCoinBox test;
+
+/* nodes ->start
+   edges  */
+/* nodes ->empty
+   edges  */
+/* nodes ->notAllowed
+   edges  */
+/* nodes ->allowed
+   edges  */
 	@Test
-	public void test() {
-		CCoinBox test = new CCoinBox(/* assumes no input constructor is defined */);
-		/* start->(start->empty)->empty */
-		/* (unterminal) */
-		/* (unvisited) */
-		/* next: start->(start->empty)->empty */
+	void TestPath1() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
 	}
 
 }
