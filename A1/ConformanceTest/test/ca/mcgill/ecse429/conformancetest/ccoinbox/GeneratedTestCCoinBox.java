@@ -17,13 +17,140 @@ public class GeneratedTestCCoinBox {
 
 	@Test
 	public void TestPath1() {
-		/* make a new test class; assumes no-arg con'r is good;
-		 assumes con'r is the first thing called */
+		/* make a new test class; assumes no-arg con'r is good */
 		test = new CCoinBox();
 
 		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
 		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
 		/* notAllowed ->addQtr-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+		/* allowed ->vend-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+	}
+
+	@Test
+	public void TestPath2() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+		/* notAllowed ->addQtr-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+		/* allowed ->vend-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+	}
+
+	@Test
+	public void TestPath3() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+		/* notAllowed ->addQtr-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+		/* allowed ->vend-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+	}
+
+	@Test
+	public void TestPath4() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+		/* notAllowed ->addQtr-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+		/* allowed ->addQtr-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+	}
+
+	@Test
+	public void TestPath5() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+		/* notAllowed ->addQtr-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+		/* allowed ->reset-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+	}
+
+	@Test
+	public void TestPath6() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+		/* notAllowed ->addQtr-> allowed */
+		//Assert.assertTrue(isStateallowed.test(test));
+		/* allowed ->returnQtrs-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+	}
+
+	@Test
+	public void TestPath7() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+		/* notAllowed ->reset-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+	}
+
+	@Test
+	public void TestPath8() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->addQtr-> notAllowed */
+		//Assert.assertTrue(isStatenotAllowed.test(test));
+		/* notAllowed ->returnQtrs-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+	}
+
+	@Test
+	public void TestPath9() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->reset-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+	}
+
+	@Test
+	public void TestPath10() {
+		/* make a new test class; assumes no-arg con'r is good */
+		test = new CCoinBox();
+
+		/* start ->@ctor-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
+		/* empty ->returnQtrs-> empty */
+		//Assert.assertTrue(isStateempty.test(test));
 	}
 
 }

@@ -16,6 +16,9 @@ public class Transition
   private State from;
   private State to;
 
+	private boolean isVisited;
+	private Transition predicessor;
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -129,4 +132,21 @@ public class Transition
      + outputString;*/
 	  return "(" + from + "->" + to /*+ ":" + event + ":" + condition + ":" + action*/ + ")";
   }
+
+	public boolean isVisited() {
+		return isVisited;
+	}
+
+	public void setVisited() {
+		isVisited = true;
+	}
+
+	public Transition getPredicessor() {
+		return predicessor;
+	}
+
+	public void setPredicessor(final Transition p) {
+		predicessor = p;
+	}
+
 }

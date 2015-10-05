@@ -157,11 +157,12 @@ class Nplus /* extends PersistenceStateMachine*/ {
 	 @param predicate	The predicate you wish to test. */
 	static void Depth(StateMachine sm, Predicate<State> predicate) {
 		/* dfs */
-		Stack<State> dfs = new Stack<State>();
+		Stack<Transition> dfs = new Stack<Transition>();
+		Transition edge;
 		State node, nextNode, n;
 		boolean isLeaf;
 		/* printing */
-		Stack<Transition> printing = new Stack<Transition>();
+		Stack<Transition> toStart = new Stack<Transition>();
 		Transition t;
 		int testCase = 1;
 		String targetClass = basicFilename(sm.getClassName());
@@ -185,72 +186,76 @@ class Nplus /* extends PersistenceStateMachine*/ {
 
 		/* dfs: start with the start */
 		assert sm.getStartState() != null;
-		dfs.push(sm.getStartState());
+		assert sm.getStartState().getOut().size() == 1;
+		assert sm.getStartState().getOut().get(0).getAction().compareTo("@ctor") == 0;
+		dfs.push(sm.getStartState().getOut().get(0));
 
 		while(!dfs.isEmpty()) {
 
 			/* debug */
-			/*System.out.print("/ * ");
-			for(State s : dfs) System.out.printf("%s, ", s);
+			/*System.out.print("/* ");
+			for(Transition e : dfs) System.out.printf("%s, ", e);
 			System.out.print(" * /\n");*/
 
 			/* dfs */
-			node = dfs.pop();
-			node.setVisited();
+			edge = dfs.pop();
+			edge.setVisited();
 
-			System.err.printf("**Got here 1.\n");
-			isLeaf = true;
-			for(Transition edge : node.getOut()) {
-				if((nextNode = edge.getTo()).isVisited()) continue;
-				isLeaf = false;
-				nextNode.setPredicessor(edge);
-				dfs.push(nextNode);
+			/* build up a Transition path to the start node, and isLeaf */
+			isLeaf = false;
+			toStart.clear();
+			for(Transition e = edge; e != null; e = e.getPredicessor()) {
+				toStart.push(e);
+				/* you can call more functions if the path is different;
+				 this is not true, but it's what we were shown in class */
+				if(e.getFrom() == edge.getTo()) isLeaf = true;
 			}
-			System.err.printf("**Got here 2.\n");
 
-			/* printing */
+			/* continue piling stuff on the dfs */
+			if(!isLeaf) {
+				isLeaf = true;
+				for(Transition e : edge.getTo().getOut()) {
+					if(e.isVisited()) continue;
+					isLeaf = false; /* this is less relaxed */
+					e.setPredicessor(edge);
+					dfs.push(e);
+				}
+			}
 
-			if(isLeaf == false) continue;
+			if(!isLeaf) continue;
 
 			/* this a leaf, output a test case */
-
 			System.out.printf("\t@Test\n");
 			System.out.printf("\tpublic void TestPath%d() {\n", testCase++);
-			System.out.printf("\t\t/* make a new test class; assumes no-arg con'r is good;\n");
-			System.out.printf("\t\t assumes con'r is the first thing called */\n");
+			System.out.printf("\t\t/* make a new test class; assumes no-arg con'r is good */\n");
 			System.out.printf("\t\ttest = new %s();\n\n", targetClass);
 
-			/* print them out in forward-order from the ternimal node */
-			/*System.out.printf("\t\t/ *\n");
-			for(Transition edge = node.getPredicessor(); edge != null; ) {
-				System.out.printf("\t\t%s\n", edge);
-				n = edge.getFrom();
-				assert n != null;
-				if((edge = n.getPredicessor()) == null) break;
-			}
-			System.out.printf("\t\t* /\n");*/
 			/* print them out in reverse order */
-			printing.clear();
-			n = node;
-			while(true) {
-				if((t = n.getPredicessor()) == null) break;
-				printing.push(t);
-				n = t.getFrom();
-				assert(n != null);
-			}
-			while(!printing.empty()) {
-				t = printing.pop();
-				System.out.printf("\t\t/* %s ->%s-> %s */\n", t.getFrom(), t.getEvent(), t.getTo());
+			while(!toStart.empty()) {
+				t = toStart.pop();
+				node = t.getTo();
+				System.out.printf("\t\t/* %s ->%s-> %s */\n", t.getFrom(), t.getEvent(), node);
 				// getEvent, getCondition, getAction
-				/*if(isValidState(s)) System.out.printf("\t\tAssert.assertTrue(isState%s.test(test));\n", s.getName());*/
+				if(isValidState(node)) System.out.printf("\t\t//Assert.assertTrue(isState%s.test(test));\n", node.getName());
 			}
+			//System.out.printf("\t\t/* final %s */\n", node);
 
 			System.out.printf("\t}\n\n");
-			
-			/* fixme: then backtrack! */
+
 		}
 
 	}
+	
+	/** Short-circuit.
+	 @param path
+	 @param node
+	 @return		Whether node has been defined on path. */
+	/*boolean isPrevious(final List<Transition> path, final State node) {
+		for(Transition edge : path) {
+			if(edge.getFrom() == node || edge.getTo() == node) return true;
+		}
+		return false;
+	}*/
 	
 	/** Constructor.
 	@param ex Something. */

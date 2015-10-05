@@ -13,10 +13,11 @@ public class State
   //State Attributes
   private String name;
 
-	private boolean isVisited  = false;
-	private boolean isFinished = false;
+	//private boolean isVisited  = false;
+	//private boolean isFinished = false;
 
 	private ArrayList<Transition> out;// = new ArrayList<Transition>();
+	//private int outIterator = 0;
 	// something's very fishy
 	
 	private Transition predicessor;
@@ -73,19 +74,28 @@ public class State
 		return out;
 	}
 	
-	public boolean isVisited() {
+/*	public Transition getNextOut() {
+		if(out == null) out = new ArrayList<Transition>(); // such a weirdness
+		if(outIterator >= out.size()) {
+			outIterator = 0;
+			return null;
+		}
+		return out.get(outIterator++);
+	}*/
+	
+/*	public boolean isVisited() {
 		return isVisited;
 	}
 	
 	public void setVisited() {
 		isVisited = true;
-	}
+	}*/
 
-	public Transition getPredicessor() {
+	/*public Transition getPredicessor() {
 		return predicessor;
 	}
 
 	public void setPredicessor(final Transition p) {
 		predicessor = p;
-	}
+	}*/
 }
