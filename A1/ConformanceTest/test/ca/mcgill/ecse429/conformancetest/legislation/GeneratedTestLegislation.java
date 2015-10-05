@@ -16,10 +16,8 @@ public class GeneratedTestLegislation {
 
 	static Legislation test;
 
-	/* string = isCommonsBill = true;
-	 3 <isCommonsBill>
-	<true>
-	*/
+	/* isCommonsBill = true; */
+	boolean isCommonsBill;
 
 	@Test
 	public void TestPath1() {

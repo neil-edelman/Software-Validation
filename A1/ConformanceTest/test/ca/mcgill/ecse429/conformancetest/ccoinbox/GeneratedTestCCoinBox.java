@@ -15,14 +15,10 @@ public class GeneratedTestCCoinBox {
 
 	static CCoinBox test;
 
-	/* string = totalQtrs = 0; curQtrs = 0; allowVend = false;
-	 3 <totalQtrs>
-	<0>
-	 3 <curQtrs>
-	<0>
-	 3 <allowVend>
-	<false>
-	*/
+	/* totalQtrs = 0; curQtrs = 0; allowVend = false; */
+	int totalQtrs;
+	int curQtrs;
+	boolean allowVend;
 
 	@Test
 	public void TestPath1() {
