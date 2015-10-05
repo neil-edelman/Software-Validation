@@ -15,19 +15,19 @@ public class GeneratedTestCCoinBox {
 
 	static CCoinBox test;
 
-/* nodes ->start
-   edges  */
-/* nodes ->empty
-   edges  */
-/* nodes ->notAllowed
-   edges  */
-/* nodes ->allowed
-   edges  */
 	@Test
 	void TestPath1() {
 		/* make a new test class; assumes no-arg con'r is good */
 		test = new CCoinBox();
 
+		/*
+		(notAllowed->allowed)
+		(empty->notAllowed)
+		(start->empty)
+		*/
+		/* start -- empty */
+		/* empty -- notAllowed */
+		/* notAllowed -- allowed */
 	}
 
 }

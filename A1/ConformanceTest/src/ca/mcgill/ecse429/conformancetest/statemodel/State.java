@@ -80,11 +80,11 @@ public class State
 		isVisited = true;
 	}
 
-	public boolean getPredicessor() {
+	public Transition getPredicessor() {
 		return predicessor;
 	}
 
-	public void setPredicessor(final Predicessor p) {
+	public void setPredicessor(final Transition p) {
 		predicessor = p;
 	}
 }

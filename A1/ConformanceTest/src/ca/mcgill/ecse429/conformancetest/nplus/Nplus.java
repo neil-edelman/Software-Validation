@@ -152,28 +152,17 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		return (s == null || "start".compareTo(s.getName()) == 0) ? false : true;
 	}
 
-	class Depth {
-		private State      node;
-		private Transition edge; /* predecessor */
-		Depth(final State node, final Transition predecessor) {
-			assert node != null;
-			this.node = node;
-			this.edge = predecessor;
-		}
-		String toString() {
-			return edge + "->" + node;
-		}
-	}
-
 	/* this will not generate the most efficient paths :[
 	 also, only call it once, because it doesn't clear the flags
 	 @param predicate	The predicate you wish to test. */
 	static void Depth(StateMachine sm, Predicate<State> predicate) {
 		/* dfs */
-		Stack<Depth> dfs = new Stack<Depth>();
-		State node, nextNode;
+		Stack<State> dfs = new Stack<State>();
+		State node, nextNode, n;
 		boolean isLeaf;
 		/* printing */
+		Stack<Transition> printing = new Stack<Transition>();
+		Transition t;
 		int testCase = 1;
 		String targetClass = basicFilename(sm.getClassName());
 		String testClass   = String.format("GeneratedTest%s", targetClass);
@@ -195,24 +184,25 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		System.out.printf("\tstatic %s test;\n\n", targetClass);
 
 		/* dfs: start with the start */
-		dfs.push(new(sm.getStartState(), null));
+		dfs.push(sm.getStartState());
 
-		while(!nodes.isEmpty()) {
+		while(!dfs.isEmpty()) {
 
 			/* debug */
-			System.out.print("/* ");
-			for(Depth d : dfs) System.out.printf("->%s", n);
-			System.out.print(" */\n");
+			/*System.out.print("/ * ");
+			for(State s : dfs) System.out.printf("%s, ", s);
+			System.out.print(" * /\n");*/
 
 			/* dfs */
-			node = nodes.pop();
+			node = dfs.pop();
 			node.setVisited();
 
 			isLeaf = true;
-			for(Transition t : node.getOut()) {
-				if((nextNode = t.getTo()).isVisited()) continue;
+			for(Transition edge : node.getOut()) {
+				if((nextNode = edge.getTo()).isVisited()) continue;
 				isLeaf = false;
-				nodes.push(nextNode);
+				nextNode.setPredicessor(edge);
+				dfs.push(nextNode);
 			}
 
 			/* printing */
@@ -226,8 +216,28 @@ class Nplus /* extends PersistenceStateMachine*/ {
 			System.out.printf("\t\t/* make a new test class; assumes no-arg con'r is good */\n");
 			System.out.printf("\t\ttest = new %s();\n\n", targetClass);
 
-			for(State s : nodes) {
-				if(isValidState(s)) System.out.printf("\t\tAssert.assertTrue(isState%s.test(test));\n", s.getName());
+			/* print them out in forward-order from the ternimal node */
+			System.out.printf("\t\t/*\n");
+			for(Transition edge = node.getPredicessor(); edge != null; ) {
+				System.out.printf("\t\t%s\n", edge);
+				n = edge.getFrom();
+				assert n != null;
+				if((edge = n.getPredicessor()) == null) break;
+			}
+			System.out.printf("\t\t*/\n");
+			/* print them out in reverse order */
+			printing.clear();
+			n = node;
+			while(true) {
+				if((t = n.getPredicessor()) == null) break;
+				printing.push(t);
+				n = t.getFrom();
+				assert(n != null);
+			}
+			while(!printing.empty()) {
+				t = printing.pop();
+				System.out.printf("\t\t/* %s -- %s */\n", t.getFrom(), t.getTo());
+				/*if(isValidState(s)) System.out.printf("\t\tAssert.assertTrue(isState%s.test(test));\n", s.getName());*/
 			}
 
 			System.out.printf("\t}\n\n");

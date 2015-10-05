@@ -16,11 +16,3 @@ public class GeneratedTestLegislation {
 
 	static Legislation test;
 
-/* nodes ->start
-   edges  */
-/* nodes ->inPreparation
-   edges  */
-/* nodes ->inSenate->inHouseOfCommons
-   edges  */
-/* nodes ->inSenate->inSenate->finalized
-   edges  */
