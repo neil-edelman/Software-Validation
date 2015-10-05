@@ -9,93 +9,115 @@ import java.util.function.Predicate;
 
 public class GeneratedTestLegislation {
 
-	static final Predicate<Legislation> isStateinPreparation = (m) -> m.getState() == Legislation.State.inPreparation;
-	static final Predicate<Legislation> isStateinHouseOfCommons = (m) -> m.getState() == Legislation.State.inHouseOfCommons;
-	static final Predicate<Legislation> isStateinSenate = (m) -> m.getState() == Legislation.State.inSenate;
-	static final Predicate<Legislation> isStatefinalized = (m) -> m.getState() == Legislation.State.finalized;
+	static final Predicate<Legislation> isStateinPreparation = (s) -> s.getState() == Legislation.State.inPreparation;
+	static final Predicate<Legislation> isStateinHouseOfCommons = (s) -> s.getState() == Legislation.State.inHouseOfCommons;
+	static final Predicate<Legislation> isStateinSenate = (s) -> s.getState() == Legislation.State.inSenate;
+	static final Predicate<Legislation> isStatefinalized = (s) -> s.getState() == Legislation.State.finalized;
 
 	static Legislation test;
 
 	@Test
 	public void TestPath1() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new Legislation();
-
 		/* start ->@ctor-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test = new Legislation();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
-		//Assert.assertTrue(isStateinHouseOfCommons.test(test));
+		test.introduceInHouse();
+		Assert.assertTrue(isStateinHouseOfCommons.test(test));
+
 		/* inHouseOfCommons ->votePasses-> finalized */
-		//Assert.assertTrue(isStatefinalized.test(test));
+		test.votePasses();
+		Assert.assertTrue(isStatefinalized.test(test));
+
 	}
 
 	@Test
 	public void TestPath2() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new Legislation();
-
 		/* start ->@ctor-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test = new Legislation();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
-		//Assert.assertTrue(isStateinHouseOfCommons.test(test));
+		test.introduceInHouse();
+		Assert.assertTrue(isStateinHouseOfCommons.test(test));
+
 		/* inHouseOfCommons ->votePasses-> inSenate */
-		//Assert.assertTrue(isStateinSenate.test(test));
+		test.votePasses();
+		Assert.assertTrue(isStateinSenate.test(test));
+
 		/* inSenate ->votePasses-> finalized */
-		//Assert.assertTrue(isStatefinalized.test(test));
+		test.votePasses();
+		Assert.assertTrue(isStatefinalized.test(test));
+
 	}
 
 	@Test
 	public void TestPath3() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new Legislation();
-
 		/* start ->@ctor-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test = new Legislation();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
-		//Assert.assertTrue(isStateinHouseOfCommons.test(test));
+		test.introduceInHouse();
+		Assert.assertTrue(isStateinHouseOfCommons.test(test));
+
 		/* inHouseOfCommons ->votePasses-> inSenate */
-		//Assert.assertTrue(isStateinSenate.test(test));
+		test.votePasses();
+		Assert.assertTrue(isStateinSenate.test(test));
+
 		/* inSenate ->votePasses-> inHouseOfCommons */
-		//Assert.assertTrue(isStateinHouseOfCommons.test(test));
+		test.votePasses();
+		Assert.assertTrue(isStateinHouseOfCommons.test(test));
+
 	}
 
 	@Test
 	public void TestPath4() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new Legislation();
-
 		/* start ->@ctor-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test = new Legislation();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
-		//Assert.assertTrue(isStateinHouseOfCommons.test(test));
+		test.introduceInHouse();
+		Assert.assertTrue(isStateinHouseOfCommons.test(test));
+
 		/* inHouseOfCommons ->votePasses-> inSenate */
-		//Assert.assertTrue(isStateinSenate.test(test));
+		test.votePasses();
+		Assert.assertTrue(isStateinSenate.test(test));
+
 		/* inSenate ->voteFails-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test.voteFails();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 	}
 
 	@Test
 	public void TestPath5() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new Legislation();
-
 		/* start ->@ctor-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test = new Legislation();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
-		//Assert.assertTrue(isStateinHouseOfCommons.test(test));
+		test.introduceInHouse();
+		Assert.assertTrue(isStateinHouseOfCommons.test(test));
+
 		/* inHouseOfCommons ->voteFails-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test.voteFails();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 	}
 
 	@Test
 	public void TestPath6() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new Legislation();
-
 		/* start ->@ctor-> inPreparation */
-		//Assert.assertTrue(isStateinPreparation.test(test));
+		test = new Legislation();
+		Assert.assertTrue(isStateinPreparation.test(test));
+
 		/* inPreparation ->introduceInSenate-> inSenate */
-		//Assert.assertTrue(isStateinSenate.test(test));
+		test.introduceInSenate();
+		Assert.assertTrue(isStateinSenate.test(test));
+
 	}
 
 }

@@ -9,148 +9,186 @@ import java.util.function.Predicate;
 
 public class GeneratedTestCCoinBox {
 
-	static final Predicate<CCoinBox> isStateempty = (m) -> m.getState() == CCoinBox.State.empty;
-	static final Predicate<CCoinBox> isStatenotAllowed = (m) -> m.getState() == CCoinBox.State.notAllowed;
-	static final Predicate<CCoinBox> isStateallowed = (m) -> m.getState() == CCoinBox.State.allowed;
+	static final Predicate<CCoinBox> isStateempty = (s) -> s.getState() == CCoinBox.State.empty;
+	static final Predicate<CCoinBox> isStatenotAllowed = (s) -> s.getState() == CCoinBox.State.notAllowed;
+	static final Predicate<CCoinBox> isStateallowed = (s) -> s.getState() == CCoinBox.State.allowed;
 
 	static CCoinBox test;
 
 	@Test
 	public void TestPath1() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->addQtr-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStateallowed.test(test));
+
 		/* allowed ->vend-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.vend();
+		Assert.assertTrue(isStateallowed.test(test));
+
 	}
 
 	@Test
 	public void TestPath2() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->addQtr-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStateallowed.test(test));
+
 		/* allowed ->vend-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.vend();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 	}
 
 	@Test
 	public void TestPath3() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->addQtr-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStateallowed.test(test));
+
 		/* allowed ->vend-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test.vend();
+		Assert.assertTrue(isStateempty.test(test));
+
 	}
 
 	@Test
 	public void TestPath4() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->addQtr-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStateallowed.test(test));
+
 		/* allowed ->addQtr-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStateallowed.test(test));
+
 	}
 
 	@Test
 	public void TestPath5() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->addQtr-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStateallowed.test(test));
+
 		/* allowed ->reset-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test.reset();
+		Assert.assertTrue(isStateempty.test(test));
+
 	}
 
 	@Test
 	public void TestPath6() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->addQtr-> allowed */
-		//Assert.assertTrue(isStateallowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStateallowed.test(test));
+
 		/* allowed ->returnQtrs-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test.returnQtrs();
+		Assert.assertTrue(isStateempty.test(test));
+
 	}
 
 	@Test
 	public void TestPath7() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->reset-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test.reset();
+		Assert.assertTrue(isStateempty.test(test));
+
 	}
 
 	@Test
 	public void TestPath8() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->addQtr-> notAllowed */
-		//Assert.assertTrue(isStatenotAllowed.test(test));
+		test.addQtr();
+		Assert.assertTrue(isStatenotAllowed.test(test));
+
 		/* notAllowed ->returnQtrs-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test.returnQtrs();
+		Assert.assertTrue(isStateempty.test(test));
+
 	}
 
 	@Test
 	public void TestPath9() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->reset-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test.reset();
+		Assert.assertTrue(isStateempty.test(test));
+
 	}
 
 	@Test
 	public void TestPath10() {
-		/* make a new test class; assumes no-arg con'r is good */
-		test = new CCoinBox();
-
 		/* start ->@ctor-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test = new CCoinBox();
+		Assert.assertTrue(isStateempty.test(test));
+
 		/* empty ->returnQtrs-> empty */
-		//Assert.assertTrue(isStateempty.test(test));
+		test.returnQtrs();
+		Assert.assertTrue(isStateempty.test(test));
+
 	}
 
 }
