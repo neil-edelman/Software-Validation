@@ -152,13 +152,25 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		return (s == null || "start".compareTo(s.getName()) == 0) ? false : true;
 	}
 
+	class Depth {
+		private State      node;
+		private Transition edge; /* predecessor */
+		Depth(final State node, final Transition predecessor) {
+			assert node != null;
+			this.node = node;
+			this.edge = predecessor;
+		}
+		String toString() {
+			return edge + "->" + node;
+		}
+	}
+
 	/* this will not generate the most efficient paths :[
 	 also, only call it once, because it doesn't clear the flags
 	 @param predicate	The predicate you wish to test. */
 	static void Depth(StateMachine sm, Predicate<State> predicate) {
 		/* dfs */
-		Stack<State>      nodes = new Stack<State>();
-		Stack<Transition> edges = new Stack<Transition>();
+		Stack<Depth> dfs = new Stack<Depth>();
 		State node, nextNode;
 		boolean isLeaf;
 		/* printing */
@@ -183,17 +195,16 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		System.out.printf("\tstatic %s test;\n\n", targetClass);
 
 		/* dfs: start with the start */
-		nodes.push(sm.getStartState());
+		dfs.push(new(sm.getStartState(), null));
 
 		while(!nodes.isEmpty()) {
 
 			/* debug */
-			System.out.print("/* nodes ");
-			for(State n : nodes) System.out.printf("->%s", n);
-			System.out.print("\n   edges ");
-			for(Transition e : edges) System.out.printf("->%s", e);
+			System.out.print("/* ");
+			for(Depth d : dfs) System.out.printf("->%s", n);
 			System.out.print(" */\n");
 
+			/* dfs */
 			node = nodes.pop();
 			node.setVisited();
 
@@ -203,6 +214,8 @@ class Nplus /* extends PersistenceStateMachine*/ {
 				isLeaf = false;
 				nodes.push(nextNode);
 			}
+
+			/* printing */
 
 			if(isLeaf == false) continue;
 

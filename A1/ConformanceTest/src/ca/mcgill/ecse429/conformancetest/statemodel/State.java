@@ -18,6 +18,8 @@ public class State
 
 	private ArrayList<Transition> out;// = new ArrayList<Transition>();
 	// something's very fishy
+	
+	private Transition predicessor;
 
   //------------------------
   // CONSTRUCTOR
@@ -78,11 +80,11 @@ public class State
 		isVisited = true;
 	}
 
-	public boolean isTerminal() {
-		return isFinished;
+	public boolean getPredicessor() {
+		return predicessor;
 	}
-	
-	public void setTerminal() {
-		isFinished = true;
+
+	public void setPredicessor(final Predicessor p) {
+		predicessor = p;
 	}
 }
