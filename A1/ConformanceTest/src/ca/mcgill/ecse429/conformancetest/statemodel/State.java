@@ -63,12 +63,13 @@ public class State
   }
 	
 	public void addOut(final Transition transition) {
-		if(out == null) out = new ArrayList<Transition>();
+		if(out == null) out = new ArrayList<Transition>(); // such a weirdness
 		out.add(transition);
 		//System.err.printf("****addOut: Added %s to %s.\n", transition, this);
 	}
 	
 	public List<Transition> getOut() {
+		if(out == null) out = new ArrayList<Transition>(); // such a weirdness
 		return out;
 	}
 	

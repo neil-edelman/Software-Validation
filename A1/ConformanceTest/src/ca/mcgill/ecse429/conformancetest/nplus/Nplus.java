@@ -184,6 +184,7 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		System.out.printf("\tstatic %s test;\n\n", targetClass);
 
 		/* dfs: start with the start */
+		assert sm.getStartState() != null;
 		dfs.push(sm.getStartState());
 
 		while(!dfs.isEmpty()) {
@@ -197,6 +198,7 @@ class Nplus /* extends PersistenceStateMachine*/ {
 			node = dfs.pop();
 			node.setVisited();
 
+			System.err.printf("**Got here 1.\n");
 			isLeaf = true;
 			for(Transition edge : node.getOut()) {
 				if((nextNode = edge.getTo()).isVisited()) continue;
@@ -204,6 +206,7 @@ class Nplus /* extends PersistenceStateMachine*/ {
 				nextNode.setPredicessor(edge);
 				dfs.push(nextNode);
 			}
+			System.err.printf("**Got here 2.\n");
 
 			/* printing */
 
@@ -212,19 +215,20 @@ class Nplus /* extends PersistenceStateMachine*/ {
 			/* this a leaf, output a test case */
 
 			System.out.printf("\t@Test\n");
-			System.out.printf("\tvoid TestPath%d() {\n", testCase++);
-			System.out.printf("\t\t/* make a new test class; assumes no-arg con'r is good */\n");
+			System.out.printf("\tpublic void TestPath%d() {\n", testCase++);
+			System.out.printf("\t\t/* make a new test class; assumes no-arg con'r is good;\n");
+			System.out.printf("\t\t assumes con'r is the first thing called */\n");
 			System.out.printf("\t\ttest = new %s();\n\n", targetClass);
 
 			/* print them out in forward-order from the ternimal node */
-			System.out.printf("\t\t/*\n");
+			/*System.out.printf("\t\t/ *\n");
 			for(Transition edge = node.getPredicessor(); edge != null; ) {
 				System.out.printf("\t\t%s\n", edge);
 				n = edge.getFrom();
 				assert n != null;
 				if((edge = n.getPredicessor()) == null) break;
 			}
-			System.out.printf("\t\t*/\n");
+			System.out.printf("\t\t* /\n");*/
 			/* print them out in reverse order */
 			printing.clear();
 			n = node;
@@ -236,7 +240,8 @@ class Nplus /* extends PersistenceStateMachine*/ {
 			}
 			while(!printing.empty()) {
 				t = printing.pop();
-				System.out.printf("\t\t/* %s -- %s */\n", t.getFrom(), t.getTo());
+				System.out.printf("\t\t/* %s ->%s-> %s */\n", t.getFrom(), t.getEvent(), t.getTo());
+				// getEvent, getCondition, getAction
 				/*if(isValidState(s)) System.out.printf("\t\tAssert.assertTrue(isState%s.test(test));\n", s.getName());*/
 			}
 

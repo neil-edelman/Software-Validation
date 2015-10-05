@@ -16,3 +16,37 @@ public class GeneratedTestLegislation {
 
 	static Legislation test;
 
+	@Test
+	public void TestPath1() {
+		/* make a new test class; assumes no-arg con'r is good;
+		 assumes con'r is the first thing called */
+		test = new Legislation();
+
+		/* start ->@ctor-> inPreparation */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inHouseOfCommons ->votePasses-> finalized */
+	}
+
+	@Test
+	public void TestPath2() {
+		/* make a new test class; assumes no-arg con'r is good;
+		 assumes con'r is the first thing called */
+		test = new Legislation();
+
+		/* start ->@ctor-> inPreparation */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inHouseOfCommons ->votePasses-> inSenate */
+	}
+
+	@Test
+	public void TestPath3() {
+		/* make a new test class; assumes no-arg con'r is good;
+		 assumes con'r is the first thing called */
+		test = new Legislation();
+
+		/* start ->@ctor-> inPreparation */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inHouseOfCommons ->votePasses-> inSenate */
+	}
+
+}

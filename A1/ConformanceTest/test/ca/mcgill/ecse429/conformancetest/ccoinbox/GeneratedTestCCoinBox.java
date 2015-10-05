@@ -16,18 +16,14 @@ public class GeneratedTestCCoinBox {
 	static CCoinBox test;
 
 	@Test
-	void TestPath1() {
-		/* make a new test class; assumes no-arg con'r is good */
+	public void TestPath1() {
+		/* make a new test class; assumes no-arg con'r is good;
+		 assumes con'r is the first thing called */
 		test = new CCoinBox();
 
-		/*
-		(notAllowed->allowed)
-		(empty->notAllowed)
-		(start->empty)
-		*/
-		/* start -- empty */
-		/* empty -- notAllowed */
-		/* notAllowed -- allowed */
+		/* start ->@ctor-> empty */
+		/* empty ->addQtr-> notAllowed */
+		/* notAllowed ->addQtr-> allowed */
 	}
 
 }
