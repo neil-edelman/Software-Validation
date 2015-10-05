@@ -11,6 +11,9 @@ import ca.mcgill.ecse429.conformancetest.statemodel.Transition;
 import java.util.function.Predicate;
 import java.util.Stack;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import java.util.Iterator;
 import java.io.File;
 
@@ -24,6 +27,10 @@ import java.io.File;
 class Nplus /* extends PersistenceStateMachine*/ {
 
 	static final int EXIT_FAILURE = 1;
+
+	/*final class Variable {
+		String name;
+	};*/
 
 	static StateMachine sm;
 
@@ -185,11 +192,27 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		System.out.printf("\n");
 		System.out.printf("\tstatic %s test;\n\n", targetClass);
 
-		/* dfs: start with the start */
+		/* dfs: start with the start (fixme: these asserts do nothing?) */
 		assert sm.getStartState() != null;
 		assert sm.getStartState().getOut().size() == 1;
-		assert sm.getStartState().getOut().get(0).getAction().compareTo("@ctor") == 0;
-		dfs.push(sm.getStartState().getOut().get(0));
+		edge = sm.getStartState().getOut().get(0);
+		assert edge.getEvent().compareTo("@ctor") == 0;
+		dfs.push(edge);
+
+		/* variable names; supports only int and boolean;
+		 very delicate, expects "foo = 0; bar = false;" and all the args are
+		 given */
+		action = edge.getAction();
+		System.out.printf("\t/* string = %s\n", action);
+		final Pattern p = Pattern.compile("\\s*(\\w*)\\s*(=\\s*(\\w*)\\s*)?;");
+		final Matcher m = p.matcher(action);
+		while(m.find()) {
+			System.out.printf("\t %d <%s>\n", m.groupCount(), m.group(1));
+			if(m.groupCount() == 3) {
+				System.out.printf("\t<%s>\n", m.group(3));
+			};
+		}
+		System.out.printf("\t*/\n\n");
 
 		while(!dfs.isEmpty()) {
 
@@ -236,8 +259,8 @@ class Nplus /* extends PersistenceStateMachine*/ {
 				event  = t.getEvent();
 				action = t.getAction();
 				cond   = t.getCondition();
-				/*System.out.printf("\t\t/ * %s ->%s:\"%s\",\"%s\",\"%s\"-> %s * /\n", t.getFrom(), t.getEvent(), node, event, action, cond, node);*/
-				System.out.printf("\t\t/* %s ->%s-> %s */\n", t.getFrom(), event, node);
+				System.out.printf("\t\t/* %s ->%s:\"%s\",\"%s\"-> %s */\n", t.getFrom(), event, action, cond, node);
+				/*System.out.printf("\t\t/ * %s ->%s-> %s * /\n", t.getFrom(), event, node);*/
 				// getEvent, getCondition, getAction
 				if("@ctor".compareTo(event) == 0) {
 					System.out.printf("\t\ttest = new %s();\n", targetClass);

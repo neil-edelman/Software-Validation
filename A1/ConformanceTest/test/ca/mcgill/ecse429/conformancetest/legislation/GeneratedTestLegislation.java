@@ -16,17 +16,22 @@ public class GeneratedTestLegislation {
 
 	static Legislation test;
 
+	/* string = isCommonsBill = true;
+	 3 <isCommonsBill>
+	<true>
+	*/
+
 	@Test
 	public void TestPath1() {
-		/* start ->@ctor-> inPreparation */
+		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
-		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
 
-		/* inHouseOfCommons ->votePasses-> finalized */
+		/* inHouseOfCommons ->votePasses:"","!getIsCommonsBill()"-> finalized */
 		test.votePasses();
 		Assert.assertTrue(isStatefinalized.test(test));
 
@@ -34,19 +39,19 @@ public class GeneratedTestLegislation {
 
 	@Test
 	public void TestPath2() {
-		/* start ->@ctor-> inPreparation */
+		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
-		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
 
-		/* inHouseOfCommons ->votePasses-> inSenate */
+		/* inHouseOfCommons ->votePasses:"","getIsCommonsBill()"-> inSenate */
 		test.votePasses();
 		Assert.assertTrue(isStateinSenate.test(test));
 
-		/* inSenate ->votePasses-> finalized */
+		/* inSenate ->votePasses:"","getIsCommonsBill()"-> finalized */
 		test.votePasses();
 		Assert.assertTrue(isStatefinalized.test(test));
 
@@ -54,19 +59,19 @@ public class GeneratedTestLegislation {
 
 	@Test
 	public void TestPath3() {
-		/* start ->@ctor-> inPreparation */
+		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
-		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
 
-		/* inHouseOfCommons ->votePasses-> inSenate */
+		/* inHouseOfCommons ->votePasses:"","getIsCommonsBill()"-> inSenate */
 		test.votePasses();
 		Assert.assertTrue(isStateinSenate.test(test));
 
-		/* inSenate ->votePasses-> inHouseOfCommons */
+		/* inSenate ->votePasses:"","!getIsCommonsBill()"-> inHouseOfCommons */
 		test.votePasses();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
 
@@ -74,19 +79,19 @@ public class GeneratedTestLegislation {
 
 	@Test
 	public void TestPath4() {
-		/* start ->@ctor-> inPreparation */
+		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
-		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
 
-		/* inHouseOfCommons ->votePasses-> inSenate */
+		/* inHouseOfCommons ->votePasses:"","getIsCommonsBill()"-> inSenate */
 		test.votePasses();
 		Assert.assertTrue(isStateinSenate.test(test));
 
-		/* inSenate ->voteFails-> inPreparation */
+		/* inSenate ->voteFails:"",""-> inPreparation */
 		test.voteFails();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
@@ -94,15 +99,15 @@ public class GeneratedTestLegislation {
 
 	@Test
 	public void TestPath5() {
-		/* start ->@ctor-> inPreparation */
+		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
-		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
 
-		/* inHouseOfCommons ->voteFails-> inPreparation */
+		/* inHouseOfCommons ->voteFails:"",""-> inPreparation */
 		test.voteFails();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
@@ -110,11 +115,11 @@ public class GeneratedTestLegislation {
 
 	@Test
 	public void TestPath6() {
-		/* start ->@ctor-> inPreparation */
+		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
 
-		/* inPreparation ->introduceInSenate-> inSenate */
+		/* inPreparation ->introduceInSenate:"isCommonsBill = false;",""-> inSenate */
 		test.introduceInSenate();
 		Assert.assertTrue(isStateinSenate.test(test));
 
