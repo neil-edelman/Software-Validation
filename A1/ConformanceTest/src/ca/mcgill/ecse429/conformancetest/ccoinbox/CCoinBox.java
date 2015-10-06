@@ -139,7 +139,7 @@ public class CCoinBox
         break;
       case allowed:
         curQtrs = curQtrs + 1;
-        setState(State.notAllowed);
+        setState(State.allowed);  // the bug has been corrected
         wasEventProcessed = true;
         break;
       default:
