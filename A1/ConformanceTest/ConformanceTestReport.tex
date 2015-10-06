@@ -6,7 +6,7 @@
 	\MakeUppercase{Neil Edelman}
 	\affil{McGill University (110121860)}
 	\MakeUppercase{Casimir D\'esarmeaux}
-	\affil{McGill University}
+	\affil{McGill University (260467441)}
 }
 \setinfo[A1]{N. Edelman, C. D\'esarmeaux}{\thetitle}{304}{429}{001}{Fall}{2015}
 
@@ -17,7 +17,7 @@
 \keywords{Subject}
 
 \begin{abstract}
-Assignment 1 report, part 1.
+Assignment 1 report.
 \end{abstract}
 
 \maketitle
@@ -66,7 +66,29 @@ The generated code is in {\tt test}, following the same directory structure.
 
 \section{Report}
 
+\subsection{Description}
 
+\begin{quote}
+Describe how to run your source code to generate the test class for a given state machine (xml file) and corresponding implementation of the state machine. This description should work for the CCoinBox example but also for the unknown state machine and its implementation.
+\end{quote}
+
+From the root of the project,
+
+{\tt java -cp bin:lib/xmlpull-1.1.3.1.jar:lib/xpp3\_min-1.1.4c.jar:lib/xstream-1.4.7.jar ca/mcgill/ecse429/conformancetest/nplus/Nplus <xmlfile>}
+
+For example,
+
+{\tt java -cp bin:lib/xmlpull-1.1.3.1.jar:lib/xpp3\_min-1.1.4c.jar:lib/xstream-1.4.7.jar ca/mcgill/ecse429/conformancetest/nplus/Nplus ccoinbox.xml > test/ca/mcgill/ecse429/conformancetest/ccoinbox/GeneratedTestCCoinBox.java}
+
+To add this to the Makefile, add another entry to the variable XML,
+
+{\tt <xml file>:<path to java>}
+
+Eg,
+
+{\tt legislation.xml:ca/mcgill/ecse429/conformancetest/legislation/Legislation.java}
+
+You can also work with Eclipse.
 
 \begin{itemize}
 \item List.
