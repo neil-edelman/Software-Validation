@@ -21,7 +21,7 @@ BACK  := backup
 
 # where the main() is
 MAIN  := ca/mcgill/ecse429/conformancetest/ccoinbox/CCoinBox
-EXTRA := Makefile ConformanceTestReport.tex ConformanceTestReport.pdf
+EXTRA := Makefile ConformanceTestReport.tex ConformanceTestReport.pdf $(wildcard lib/*.jar) $(wildcard *.xml)
 
 # auto-generate tests
 NPLUS := ca/mcgill/ecse429/conformancetest/nplus/Nplus

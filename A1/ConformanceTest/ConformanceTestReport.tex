@@ -14,7 +14,7 @@
 
 \category{D.1.3}{Software}{Concurrent Programming}
 \terms{Software}
-\keywords{Subject}
+\keywords{Software Quality Assurance}
 
 \begin{abstract}
 Assignment 1 report.
@@ -59,7 +59,9 @@ The generated code is in {\tt test}, following the same directory structure.
 \section{Complete Test Class}
 
 \begin{quote}
-The complete test class for the CCoinBox example with additional code added manually asneeded to fully test the CCoinBox state machine based on the N+ Test Strategy (conformance tests only). This class must be called TestCCoinBox.java and saved in the same package as the implementation of the state machine. Any manual changes have to be clearly identified in thecomplete test class. Any complete test class that cannot be executed as a JUnit test will result in a mark of 0 for this part.
+The complete test class for the CCoinBox example with additional code added manually as
+needed to fully test the CCoinBox state machine based on the N+ Test Strategy (conformance tests only). This class must be called TestCCoinBox.java and saved in the same package as the implementation of the state machine. Any manual changes have to be clearly identified in the
+complete test class. Any complete test class that cannot be executed as a JUnit test will result in a mark of 0 for this part.
 \end{quote}
 
 The generated code is in {\tt test}, following the same directory structure.
@@ -88,7 +90,22 @@ Eg,
 
 {\tt legislation.xml:ca/mcgill/ecse429/conformancetest/legislation/Legislation.java}
 
-You will have to set {\tt JUNITHOME} in your environment or uncomment it in the Makefile.
+You will have to set {\tt JUNITHOME} in your environment or uncomment it in the Makefile. Also, {\tt HOME} is the default java project file. The make options are listed in Table~\ref{Makefile}; specifically, {\tt make test} will be useful.
+
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{rp{3in}}
+make&				make the programme MAIN, with {\tt src/} to {\tt bin/}\\
+make test&			junit tests; tests are assumed to be in a parallel directory, {\tt test/}\\
+make run&			run the java programme\\
+make clean&			delete {\tt bin/}\\
+make backup [description]&	add a snapshot {\tt zip} to {\tt backup}; {\tt src/}, {\tt test/}, and {\tt EXTRA}
+\end{tabular}
+\end{center}
+\caption{Makefile}
+\label{Makefile}
+\end{table}%
+
 
 You can also work with Eclipse, just save the output as a java file.
 
@@ -127,6 +144,8 @@ In one paragraph, discuss what would be the main challenge to automate the gener
 The above scenarios had to be fixed manually, because the generated code respects the round trip path tree. In these cases, the code implementing the depth first search to make the round trip path tree could not catch these flaws. 
 
 	As mentioned above, there was a defect found in the implementation of the {\tt CCoinBox} example, which concerns the {\tt addQtr()} method. The defect came from the case when the state is allowed, and when a quarter is added, it is changed to not allowed. This has been fixed by simply changing the outcome of the case: when the state is allowed and a quarter is added, the state remains allowed.
+
+We expect that the sneak path generation is actually quite easy on our implementation. All that would be required is a set of variables that save which paths have been tested, and test the leftovers. We've designed the load file and save test case to be generally separate, so we can do an intermediate step; the disadvantage of this flexibility is a greater memory requirement.
 
 \received{\thedate}{\thedate}{\thedate}
 
