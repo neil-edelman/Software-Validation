@@ -31,7 +31,7 @@ XML = \
 NPLUSDEP := $(call rwildcard, $(SDIR)/ca/mcgill/ecse429/conformancetest/nplus/, *.java)
 
 # set this in where the files hamcrest-core-1.3.jar, junit-4.12.jar can be found
-JUNITHOME := /Users/neil/Music/java
+#JUNITHOME := /Users/neil/Music/java
 
 # compiler options
 CC   := javac
