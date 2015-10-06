@@ -21,7 +21,7 @@ BACK  := backup
 
 # where the main() is
 MAIN  := ca/mcgill/ecse429/conformancetest/ccoinbox/CCoinBox
-EXTRA := Makefile
+EXTRA := Makefile ConformanceTestReport.tex ConformanceTestReport.pdf
 
 # auto-generate tests
 NPLUS := ca/mcgill/ecse429/conformancetest/nplus/Nplus
