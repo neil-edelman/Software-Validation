@@ -9,117 +9,125 @@ import java.util.function.Predicate;
 
 public class GeneratedTestLegislation {
 
+	static Legislation test;
+
+	/* taken from con'r: isCommonsBill = true; */
+	boolean isCommonsBill = true;
+
+	/* change this if you must */
 	static final Predicate<Legislation> isStateinPreparation = (s) -> s.getState() == Legislation.State.inPreparation;
 	static final Predicate<Legislation> isStateinHouseOfCommons = (s) -> s.getState() == Legislation.State.inHouseOfCommons;
 	static final Predicate<Legislation> isStateinSenate = (s) -> s.getState() == Legislation.State.inSenate;
 	static final Predicate<Legislation> isStatefinalized = (s) -> s.getState() == Legislation.State.finalized;
 
-	static Legislation test;
-
-	/* isCommonsBill = true; */
-	boolean isCommonsBill;
-
 	@Test
 	public void TestPath1() {
-		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
+		/* start ->@ctor-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
+		Assert.assertTrue(test.getIsCommonsBill() == true);
+		isCommonsBill = true;
 
-		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
-
-		/* inHouseOfCommons ->votePasses:"","!getIsCommonsBill()"-> finalized */
+		/* inHouseOfCommons ->votePasses-> finalized */
+		/* FIXME?: !getIsCommonsBill() */
 		test.votePasses();
 		Assert.assertTrue(isStatefinalized.test(test));
-
 	}
 
 	@Test
 	public void TestPath2() {
-		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
+		/* start ->@ctor-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
+		Assert.assertTrue(test.getIsCommonsBill() == true);
+		isCommonsBill = true;
 
-		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
-
-		/* inHouseOfCommons ->votePasses:"","getIsCommonsBill()"-> inSenate */
+		/* inHouseOfCommons ->votePasses-> inSenate */
+		/* FIXME?: getIsCommonsBill() */
 		test.votePasses();
 		Assert.assertTrue(isStateinSenate.test(test));
-
-		/* inSenate ->votePasses:"","getIsCommonsBill()"-> finalized */
+		/* inSenate ->votePasses-> finalized */
+		/* FIXME?: getIsCommonsBill() */
 		test.votePasses();
 		Assert.assertTrue(isStatefinalized.test(test));
-
 	}
 
 	@Test
 	public void TestPath3() {
-		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
+		/* start ->@ctor-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
+		Assert.assertTrue(test.getIsCommonsBill() == true);
+		isCommonsBill = true;
 
-		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
-
-		/* inHouseOfCommons ->votePasses:"","getIsCommonsBill()"-> inSenate */
+		/* inHouseOfCommons ->votePasses-> inSenate */
+		/* FIXME?: getIsCommonsBill() */
 		test.votePasses();
 		Assert.assertTrue(isStateinSenate.test(test));
-
-		/* inSenate ->votePasses:"","!getIsCommonsBill()"-> inHouseOfCommons */
+		/* inSenate ->votePasses-> inHouseOfCommons */
+		/* FIXME?: !getIsCommonsBill() */
 		test.votePasses();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
-
 	}
 
 	@Test
 	public void TestPath4() {
-		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
+		/* start ->@ctor-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
+		Assert.assertTrue(test.getIsCommonsBill() == true);
+		isCommonsBill = true;
 
-		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
-
-		/* inHouseOfCommons ->votePasses:"","getIsCommonsBill()"-> inSenate */
+		/* inHouseOfCommons ->votePasses-> inSenate */
+		/* FIXME?: getIsCommonsBill() */
 		test.votePasses();
 		Assert.assertTrue(isStateinSenate.test(test));
-
-		/* inSenate ->voteFails:"",""-> inPreparation */
+		/* inSenate ->voteFails-> inPreparation */
 		test.voteFails();
 		Assert.assertTrue(isStateinPreparation.test(test));
-
 	}
 
 	@Test
 	public void TestPath5() {
-		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
+		/* start ->@ctor-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
+		Assert.assertTrue(test.getIsCommonsBill() == true);
+		isCommonsBill = true;
 
-		/* inPreparation ->introduceInHouse:"",""-> inHouseOfCommons */
+		/* inPreparation ->introduceInHouse-> inHouseOfCommons */
 		test.introduceInHouse();
 		Assert.assertTrue(isStateinHouseOfCommons.test(test));
-
-		/* inHouseOfCommons ->voteFails:"",""-> inPreparation */
+		/* inHouseOfCommons ->voteFails-> inPreparation */
 		test.voteFails();
 		Assert.assertTrue(isStateinPreparation.test(test));
-
 	}
 
 	@Test
 	public void TestPath6() {
-		/* start ->@ctor:"isCommonsBill = true;",""-> inPreparation */
+		/* start ->@ctor-> inPreparation */
 		test = new Legislation();
 		Assert.assertTrue(isStateinPreparation.test(test));
+		Assert.assertTrue(test.getIsCommonsBill() == true);
+		isCommonsBill = true;
 
-		/* inPreparation ->introduceInSenate:"isCommonsBill = false;",""-> inSenate */
+		/* inPreparation ->introduceInSenate-> inSenate */
 		test.introduceInSenate();
 		Assert.assertTrue(isStateinSenate.test(test));
+		Assert.assertTrue(test.getIsCommonsBill() == false);
+		isCommonsBill = false;
 
 	}
 

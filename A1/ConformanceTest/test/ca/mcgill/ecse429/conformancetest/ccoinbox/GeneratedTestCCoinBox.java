@@ -9,191 +9,295 @@ import java.util.function.Predicate;
 
 public class GeneratedTestCCoinBox {
 
+	static CCoinBox test;
+
+	/* taken from con'r: totalQtrs = 0; curQtrs = 0; allowVend = false; */
+	int totalQtrs = 0;
+	int curQtrs = 0;
+	boolean allowVend = false;
+
+	/* change this if you must */
 	static final Predicate<CCoinBox> isStateempty = (s) -> s.getState() == CCoinBox.State.empty;
 	static final Predicate<CCoinBox> isStatenotAllowed = (s) -> s.getState() == CCoinBox.State.notAllowed;
 	static final Predicate<CCoinBox> isStateallowed = (s) -> s.getState() == CCoinBox.State.allowed;
 
-	static CCoinBox test;
-
-	/* totalQtrs = 0; curQtrs = 0; allowVend = false; */
-	int totalQtrs;
-	int curQtrs;
-	boolean allowVend;
-
 	@Test
 	public void TestPath1() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->addQtr:"curQtrs = curQtrs + 1; allowVend = true;",""-> allowed */
+		/* notAllowed ->addQtr-> allowed */
 		test.addQtr();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		Assert.assertTrue(test.getAllowVend() == true);
+		curQtrs = curQtrs + 1; allowVend = true;
 
-		/* allowed ->vend:"totalQtrs = totalQtrs + 2; curQtrs = curQtrs - 2;","curQtrs > 3"-> allowed */
+		/* allowed ->vend-> allowed */
+		/* FIXME?: curQtrs > 3 */
 		test.vend();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == totalQtrs + 2);
+		Assert.assertTrue(test.getCurQtrs() == curQtrs - 2);
+		totalQtrs = totalQtrs + 2; curQtrs = curQtrs - 2;
 
 	}
 
 	@Test
 	public void TestPath2() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->addQtr:"curQtrs = curQtrs + 1; allowVend = true;",""-> allowed */
+		/* notAllowed ->addQtr-> allowed */
 		test.addQtr();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		Assert.assertTrue(test.getAllowVend() == true);
+		curQtrs = curQtrs + 1; allowVend = true;
 
-		/* allowed ->vend:"totalQtrs = totalQtrs + 2; curQtrs = 1; allowVend = false;","curQtrs == 3"-> notAllowed */
+		/* allowed ->vend-> notAllowed */
+		/* FIXME?: curQtrs == 3 */
 		test.vend();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == totalQtrs + 2);
+		Assert.assertTrue(test.getCurQtrs() == 1);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = totalQtrs + 2; curQtrs = 1; allowVend = false;
 
 	}
 
 	@Test
 	public void TestPath3() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->addQtr:"curQtrs = curQtrs + 1; allowVend = true;",""-> allowed */
+		/* notAllowed ->addQtr-> allowed */
 		test.addQtr();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		Assert.assertTrue(test.getAllowVend() == true);
+		curQtrs = curQtrs + 1; allowVend = true;
 
-		/* allowed ->vend:"totalQtrs = totalQtrs + 2; curQtrs = 0; allowVend = false;","curQtrs == 2"-> empty */
+		/* allowed ->vend-> empty */
+		/* FIXME?: curQtrs == 2 */
 		test.vend();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == totalQtrs + 2);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = totalQtrs + 2; curQtrs = 0; allowVend = false;
 
 	}
 
 	@Test
 	public void TestPath4() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->addQtr:"curQtrs = curQtrs + 1; allowVend = true;",""-> allowed */
+		/* notAllowed ->addQtr-> allowed */
 		test.addQtr();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		Assert.assertTrue(test.getAllowVend() == true);
+		curQtrs = curQtrs + 1; allowVend = true;
 
-		/* allowed ->addQtr:"curQtrs = curQtrs + 1;",""-> allowed */
+		/* allowed ->addQtr-> allowed */
 		test.addQtr();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
 	}
 
 	@Test
 	public void TestPath5() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->addQtr:"curQtrs = curQtrs + 1; allowVend = true;",""-> allowed */
+		/* notAllowed ->addQtr-> allowed */
 		test.addQtr();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		Assert.assertTrue(test.getAllowVend() == true);
+		curQtrs = curQtrs + 1; allowVend = true;
 
-		/* allowed ->reset:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* allowed ->reset-> empty */
 		test.reset();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
 	}
 
 	@Test
 	public void TestPath6() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->addQtr:"curQtrs = curQtrs + 1; allowVend = true;",""-> allowed */
+		/* notAllowed ->addQtr-> allowed */
 		test.addQtr();
 		Assert.assertTrue(isStateallowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		Assert.assertTrue(test.getAllowVend() == true);
+		curQtrs = curQtrs + 1; allowVend = true;
 
-		/* allowed ->returnQtrs:"curQtrs = 0; allowVend = false;",""-> empty */
+		/* allowed ->returnQtrs-> empty */
 		test.returnQtrs();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		curQtrs = 0; allowVend = false;
 
 	}
 
 	@Test
 	public void TestPath7() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->reset:"totalQtrs = 0; curQtrs = 0;",""-> empty */
+		/* notAllowed ->reset-> empty */
 		test.reset();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		totalQtrs = 0; curQtrs = 0;
 
 	}
 
 	@Test
 	public void TestPath8() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->addQtr:"curQtrs = curQtrs + 1;",""-> notAllowed */
+		/* empty ->addQtr-> notAllowed */
 		test.addQtr();
 		Assert.assertTrue(isStatenotAllowed.test(test));
+		Assert.assertTrue(test.getCurQtrs() == curQtrs + 1);
+		curQtrs = curQtrs + 1;
 
-		/* notAllowed ->returnQtrs:"curQtrs = 0;",""-> empty */
+		/* notAllowed ->returnQtrs-> empty */
 		test.returnQtrs();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		curQtrs = 0;
 
 	}
 
 	@Test
 	public void TestPath9() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->reset:"totalQtrs = 0;",""-> empty */
+		/* empty ->reset-> empty */
 		test.reset();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		totalQtrs = 0;
 
 	}
 
 	@Test
 	public void TestPath10() {
-		/* start ->@ctor:"totalQtrs = 0; curQtrs = 0; allowVend = false;",""-> empty */
+		/* start ->@ctor-> empty */
 		test = new CCoinBox();
 		Assert.assertTrue(isStateempty.test(test));
+		Assert.assertTrue(test.getTotalQtrs() == 0);
+		Assert.assertTrue(test.getCurQtrs() == 0);
+		Assert.assertTrue(test.getAllowVend() == false);
+		totalQtrs = 0; curQtrs = 0; allowVend = false;
 
-		/* empty ->returnQtrs:"",""-> empty */
+		/* empty ->returnQtrs-> empty */
 		test.returnQtrs();
 		Assert.assertTrue(isStateempty.test(test));
-
 	}
 
 }
