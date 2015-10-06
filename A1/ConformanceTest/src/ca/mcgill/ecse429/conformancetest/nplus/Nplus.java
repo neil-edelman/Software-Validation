@@ -9,7 +9,15 @@ import ca.mcgill.ecse429.conformancetest.statemodel.StateMachine;
 import ca.mcgill.ecse429.conformancetest.statemodel.Transition;
 
 import java.util.function.Predicate;
+import java.util.function.Function;
 import java.util.Stack;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.lang.NumberFormatException;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.Iterator;
 import java.io.File;
@@ -24,6 +32,45 @@ import java.io.File;
 class Nplus /* extends PersistenceStateMachine*/ {
 
 	static final int EXIT_FAILURE = 1;
+
+	private enum Type {
+		INT  ("integer", (a) -> "int " + a ),
+		BOOL ("boolean", (a) -> "boolean " + a );
+		private final String                  typeName;
+		private final Function<String,String> declare;
+		private Type(final String typeName, final Function<String,String> declare) {
+			this.typeName = typeName;
+			this.declare  = declare;
+		}
+		public String toString() {
+			return typeName;
+		}
+		private String declare(final String a) {
+			return declare.apply(a);
+		}
+	}
+
+	final static private class Variable {
+		String name;
+		String value;
+		Type   type;
+		Variable(final String var, final String val) {
+			name  = var;
+			value = val;
+			try {
+				Integer.parseInt(val);
+				type = Type.INT;
+			} catch(NumberFormatException e) {
+				type = Type.BOOL;
+			}
+		}
+		public String toString() {
+			return name;
+		}
+		String declare() {
+			return type.declare(name);
+		}
+	}
 
 	static StateMachine sm;
 
@@ -46,68 +93,6 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		sm = PersistenceStateMachine.loadStateMachine(xml);
 
 		Depth(sm, null);
-		/* do a bunch of dfs paths until coverage is complete */
-		/*State state, nextState, nextTemp;
-		boolean isLookingForUnvisited;
-		while((state = sm.getStartState()).isTerminal() != true) {
-
-			/ each path corresponds to a test /
-			System.out.printf("\t@Test\n");
-			System.out.printf("\tpublic void test() {\n");
-			System.out.printf("\t\t%s test = new %s(/ assumes no input constructor is defined /);\n", targetClass, targetClass);
-
-			/ a single dfs path /
-			for( ; ; ) {
-
-				if(state == null) {
-					System.out.printf("/state == null!!!! :[/\n");
-					break;
-				}
-				/ assert this node /
-				if(isValidState(state)) System.out.printf("\t\tAssert.assertTrue(isState%s.test(test));\n", state.getName());
-				state.setVisited();
-
-				/ compile a list of unvisited states from the current state /
-				int unvisited = 0, unterminal = 0;
-				for(Transition t : state.getOut()) {
-					nextTemp = t.getTo();
-					if(nextTemp == state || nextTemp.isTerminal()) continue;
-					System.out.printf("\t\t/ %s->%s->%s /\n", state, t, nextTemp);
-					unterminal++;
-					System.out.printf("\t\t/ (unterminal) /\n");
-					if(nextTemp.isVisited()) continue;
-					unvisited++;
-					System.out.printf("\t\t/ (unvisited) /\n");
-				}
-
-				if(unterminal == 0) {
-					/ leaf /
-					state.setTerminal();
-					System.out.printf("\t\t/ %s set to terminal /\n");
-					break;
-				} else if(unvisited == 0) {
-					isLookingForUnvisited = false;
-				} else {
-					isLookingForUnvisited = true;
-				}
-
-				/ nextState /
-				nextState = null;
-				for(Transition t : state.getOut()) {
-					nextTemp = t.getTo();
-					if(nextTemp == state || nextTemp.isTerminal()) continue;
-					if(isLookingForUnvisited && nextTemp.isVisited()) continue;
-					System.out.printf("\t\t/ next: %s->%s->%s /\n", state, t, nextTemp);
-					nextState = nextTemp;
-					break;
-				}
-				assert(nextState != null);
-				state = nextState;
-				break;
-			}
-			System.out.printf("\t}\n\n");
-			break;
-		}*/
 
 		/* footer */
 		System.out.printf("}\n");
@@ -167,6 +152,7 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		int testCase = 1;
 		String targetClass = basicFilename(sm.getClassName());
 		String testClass   = String.format("GeneratedTest%s", targetClass);
+		List<Variable> vars = new ArrayList<Variable>();
 		String event, action, cond;
 
 		/* printing: create the header */
@@ -185,11 +171,29 @@ class Nplus /* extends PersistenceStateMachine*/ {
 		System.out.printf("\n");
 		System.out.printf("\tstatic %s test;\n\n", targetClass);
 
-		/* dfs: start with the start */
+		/* dfs: start with the start (fixme: these asserts do nothing?) */
 		assert sm.getStartState() != null;
 		assert sm.getStartState().getOut().size() == 1;
-		assert sm.getStartState().getOut().get(0).getAction().compareTo("@ctor") == 0;
-		dfs.push(sm.getStartState().getOut().get(0));
+		edge = sm.getStartState().getOut().get(0);
+		assert edge.getEvent().compareTo("@ctor") == 0;
+		dfs.push(edge);
+
+		/* variable names; supports only int and boolean;
+		 very delicate, expects "foo = 0; bar = false;" and all the args are
+		 given */
+		action = edge.getAction();
+		System.out.printf("\t/* %s */\n", action);
+		final Pattern p = Pattern.compile("\\s*(\\w*)\\s*(=\\s*(\\w*)\\s*)?;");
+		final Matcher m = p.matcher(action);
+		while(m.find()) {
+			String var = m.group(1), val = "0";
+			if(m.groupCount() == 3) val = m.group(3);
+			vars.add(new Variable(var, val));
+		}
+
+		/* declare vars */
+		for(Variable v : vars) System.out.printf("\t%s;\n", v.declare());
+		System.out.printf("\n");
 
 		while(!dfs.isEmpty()) {
 
@@ -236,8 +240,8 @@ class Nplus /* extends PersistenceStateMachine*/ {
 				event  = t.getEvent();
 				action = t.getAction();
 				cond   = t.getCondition();
-				/*System.out.printf("\t\t/ * %s ->%s:\"%s\",\"%s\",\"%s\"-> %s * /\n", t.getFrom(), t.getEvent(), node, event, action, cond, node);*/
-				System.out.printf("\t\t/* %s ->%s-> %s */\n", t.getFrom(), event, node);
+				System.out.printf("\t\t/* %s ->%s:\"%s\",\"%s\"-> %s */\n", t.getFrom(), event, action, cond, node);
+				/*System.out.printf("\t\t/ * %s ->%s-> %s * /\n", t.getFrom(), event, node);*/
 				// getEvent, getCondition, getAction
 				if("@ctor".compareTo(event) == 0) {
 					System.out.printf("\t\ttest = new %s();\n", targetClass);
